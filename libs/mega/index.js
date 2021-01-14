@@ -60,7 +60,7 @@ mega.File.prototype.relink = function(options, cb) {
     };
   }
 
-  this.unlink(function(err) {
+  this.unlink((err) => {
     if(err) return cb(err);
     this.clink(options, cb);
   });
