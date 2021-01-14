@@ -3,11 +3,10 @@ const mega = require('megajs');
 mega.File.prototype.clink = function(options, cb) {
 
   // valid link count
-  if(this.linkCount && this.linkCount >= 20) {
-    this.linkCount = 0;
-    return this.relink(options, cb);
+  if(this.linkCount && this.linkCount > 20) {
+    this.invalidLink = true;
   } else {
-    this.linkCount = this.linkCount ? this.linkCount + 1 : 0;
+    this.linkCount = this.linkCount ? (this.linkCount + 1) : 1;
   }
 
   if (arguments.length === 1 && typeof options === 'function') {
@@ -27,7 +26,6 @@ mega.File.prototype.clink = function(options, cb) {
   } else {
     this.link(options, (err, url) => {
       if(err) return cb(err);
-      console.log(this);
       this.linkCache = url;
       cb(null, url);
     });

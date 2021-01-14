@@ -12,4 +12,5 @@ module.exports.megaAuth = {
 };
 
 // Administrator token
-module.exports.adminToken = process.env['ADMIN_TOKEN'];
+// set to anonymous object if no admintoken specified(for security reason)
+module.exports.adminToken = process.env['ADMIN_TOKEN'] || {};

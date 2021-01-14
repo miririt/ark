@@ -1,4 +1,4 @@
-const mega = require('../libs/mega');
+const mega = require('./mega');
 const config = require('../config');
 
 function MEGAStorage() {
@@ -87,18 +87,13 @@ MEGAStorage.prototype.unlinkFile = function(name, cb) {
   .then(links => cb(null, links));
 };
 
-MEGAStorage.prototype.relinkFile = function(name, cb) {
+MEGAStorage.prototype.relinkFile = function(cb) {
   // If files are not loaded
   if(!this.files) { return cb('404'); }
-  
-  const queries = name.toUpperCase().split();
 
   // search target file
-  const targetFiles = this.files.filter(file => {
-    return queries.every(queryString => {
-      return file.upperName.indexOf(queryString) != -1;
-    });
-  });
+  // maximum relink num is 100 for each relink request
+  const targetFiles = this.files.filter(file => file.invalidLink).slice(0, 100);
 
   const fileLinkPromises = targetFiles.map(file => {
     return new Promise(function(resolve, reject){

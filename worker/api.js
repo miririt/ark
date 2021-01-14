@@ -1,6 +1,6 @@
 const express = require('express');
-const ms = require('./mega-storage');
-const validator = require('./validator');
+const ms = require('../libs/mega-storage');
+const validator = require('../libs/validator');
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.post('/relink', function(req, res) {
   if(!validator.isAdmin(req.body.adminToken)) {
     return res.status(403).end();
   }
-  ms.relinkFile(req.body.query, function(err, urls) {
+  ms.relinkFile(function(err, urls) {
     if(err) {
       res.status(404).end();
     } else {
