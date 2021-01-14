@@ -1,13 +1,11 @@
 
 class Scroll {
   static bounceBack = () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight + Scroll.bounceBackSize) {
-      scrollBy({
-        'top': -Scroll.bounceBackSize,
-        'left': 0,
-        'behavior': 'smooth'
-      });
-    }
+    scrollBy({
+      'top': -Scroll.bounceBackSize,
+      'left': 0,
+      'behavior': 'smooth'
+    });
   }
 
   static isSearching = false;
@@ -23,8 +21,8 @@ class Scroll {
         console.log(err);
         this.isSearching = false;
       });
-      this.bounceBack();
     }
+    this.bounceBack();
   }
 }
 
