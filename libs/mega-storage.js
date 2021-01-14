@@ -35,7 +35,7 @@ MEGAStorage.prototype.update = function(cb) {
   });
 };
 
-MEGAStorage.prototype.getFile = function(name, cb) {
+MEGAStorage.prototype.getFile = function(name, range, cb) {
   // If files are not loaded
   if(!this.files) { return cb('404'); }
   
@@ -46,13 +46,15 @@ MEGAStorage.prototype.getFile = function(name, cb) {
     return queries.every(queryString => {
       return file.upperName.indexOf(queryString) != -1;
     });
-  });
+  }).slice(range.start, range.end);
 
   const fileLinkPromises = targetFiles.map(file => {
     return new Promise(function(resolve, reject){
       file.clink(function(err, url) {
         if(err) reject(err);
-        else resolve({ name: file.name, link: url });
+        else {
+          resolve({ name: file.name, link: url });
+        }
       });
     });
   });

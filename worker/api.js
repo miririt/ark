@@ -9,7 +9,8 @@ router.get('/heartbeat', function(req, res) {
 });
 
 router.post('/link', function(req, res) {
-  ms.getFile(req.body.query, function(err, urls) {
+  const range = validator.validateRange(req.body.range);
+  ms.getFile(req.body.string, range, function(err, urls) {
     if(err) {
       res.status(404).end();
     } else {

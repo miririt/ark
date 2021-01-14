@@ -2,6 +2,13 @@
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
 
 body { display: flex; flex-direction: column; }
+body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
 
 #search-form {
     display: flex;
@@ -31,9 +38,10 @@ button { border: 2px solid black; padding: 1em; border-radius: 8px; }
 }
 
 #search-result a.result-item {
-    display: inline-block;
-    text-decoration: inherit;
-    color: inherit;
+    display: flex;
+    height: 20%;
+    align-items: center;
+    text-decoration: inherit; color: inherit;
 }
 
 #blank-result {
@@ -44,4 +52,17 @@ button { border: 2px solid black; padding: 1em; border-radius: 8px; }
 #error-result {
     padding: 2em;
     margin: auto;
+}
+
+#bounce-back {
+    width: inherit;
+    height: 48px; /* will be overwritten by infinite-scroll.js */
+    text-align: center;
+    line-height: 48px;
+    background: grey;
+    color: white;
+    font-weight: bold;
+    scroll-behavior: smooth;
+    position: absolute;
+    top: 100%;
 }
