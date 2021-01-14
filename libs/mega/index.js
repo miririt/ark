@@ -39,7 +39,7 @@ mega.File.prototype.unlink = function(cb) {
     n: this.nodeId
   }, (err) => {
     if (err) return cb(err);
-    delete this.link;
+    delete this.linkCache;
     this.linkCount = 0;
     this.invalidLink = false;
     cb(null);
