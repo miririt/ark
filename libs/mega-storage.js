@@ -48,19 +48,12 @@ MEGAStorage.prototype.getFile = function(name, range, cb) {
     });
   }).slice(range.start, range.end);
 
-  const fileLinkPromises = targetFiles.map(file => {
-    return new Promise(function(resolve, reject){
-      file.clink(function(err, url) {
-        if(err) reject(err);
-        else {
-          resolve({ name: file.name, link: url });
-        }
-      });
-    });
+  mega.clinks(targetFiles, (err, res) => {
+    if(err) cb(err);
+    cb(null, res);
   });
 
-  Promise.all(fileLinkPromises)
-  .then(links => cb(null, links));
+  return this;
 };
 
 MEGAStorage.prototype.unlinkFile = function(name, cb) {
@@ -76,17 +69,12 @@ MEGAStorage.prototype.unlinkFile = function(name, cb) {
     });
   });
 
-  const fileLinkPromises = targetFiles.map(file => {
-    return new Promise(function(resolve, reject){
-      file.unlink(function(err) {
-        if(err) reject(err);
-        else resolve(file.name);
-      });
-    });
+  mega.unlinks(targetFiles, (err) => {
+    if(err) cb(err);
+    cb(null);
   });
-
-  Promise.all(fileLinkPromises)
-  .then(links => cb(null, links));
+  
+  return this;
 };
 
 MEGAStorage.prototype.relinkFile = function(cb) {
@@ -97,17 +85,12 @@ MEGAStorage.prototype.relinkFile = function(cb) {
   // maximum relink num is 100 for each relink request
   const targetFiles = this.files.filter(file => file.invalidLink).slice(0, 100);
 
-  const fileLinkPromises = targetFiles.map(file => {
-    return new Promise(function(resolve, reject){
-      file.relink(function(err, url) {
-        if(err) reject(err);
-        else resolve({ name: file.name, link: url });
-      });
-    });
+  mega.relinks(targetFiles, (err, res) => {
+    if(err) cb(err);
+    cb(null, res);
   });
 
-  Promise.all(fileLinkPromises)
-  .then(links => cb(null, links));
+  return this;
 };
 
 module.exports = new MEGAStorage();
