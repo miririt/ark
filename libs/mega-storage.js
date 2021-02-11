@@ -35,6 +35,25 @@ MEGAStorage.prototype.update = function(cb) {
   });
 };
 
+MEGAStorage.prototype.linkFile = function(nodeId, cb) {
+  // If files are not loaded
+  if(!this.files) { return cb('404'); }
+
+  // search target file
+  const targetFile = this.files.find(file => {
+    return file.nodeId === nodeId;
+  });
+
+  if(!targetFile) cb(new Error('Cannot find that file'));
+
+  mega.clinks([targetFile], (err, res) => {
+    if(err) cb(err);
+    cb(null, res[0]);
+  })
+
+  return this;
+};
+
 MEGAStorage.prototype.getFile = function(name, range, cb) {
   // If files are not loaded
   if(!this.files) { return cb('404'); }

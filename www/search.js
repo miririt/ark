@@ -14,13 +14,24 @@ class Search {
   }
 
   static addSearchResult = (result) => {
+    const resultDiv = document.createElement('div');
+    resultDiv.classList.add('result-item');
+
     const resultElement = document.createElement('a');
-    resultElement.classList.add('result-item');
+    resultElement.classList.add('name');
     resultElement.innerText = result.name;
     resultElement.target = '_blank';
     resultElement.href = result.link;
+
+    const linkElement = document.createElement('a');
+    linkElement.classList.add('link');
+    linkElement.innerText = '[LINK]';
+    linkElement.target = '_blank';
+    linkElement.href = `${location.href}link?id=${result.id}`;
    
-    this.searchResult.append(resultElement);
+    resultDiv.append(resultElement);
+    resultDiv.append(linkElement);
+    this.searchResult.append(resultDiv);
   }
 
   static addBlankResult = () => {

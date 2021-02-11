@@ -97,6 +97,7 @@ mega.clinks = function(files, cb) {
         if (targetFiles[idx].key) url$$1 += `#${e64(targetFiles[idx].key)}`;
         return {
           name: targetFiles[idx].name,
+          id: targetFiles[idx].nodeId,
           link: (targetFiles[idx].cachedLink = url$$1)
         };
       });
